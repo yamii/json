@@ -1,0 +1,102 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <title>json</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="styles/main.css">
+
+</head>
+
+<body>
+
+    <div class="hero-unit">
+        <h1>'Allo, 'Allo!</h1>
+        <p>You now have</p>
+        <ul>
+            <li>HTML5 Boilerplate</li>
+        </ul>
+    </div>
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/jsonpointer.js/src/jsonpointer.js"></script>
+    <script src="bower_components/tv4/tv4.js"></script>
+    <script src="bower_components/chai/chai.js"></script>
+    <script src="bower_components/chai-json-schema/index.js"></script>
+
+    <script>
+    var goodApple = {
+        skin: "thin",
+        colors: ["red", "green", "yellow"],
+        taste: 10
+    };
+    var badApple = [{
+        colors: ["brown"],
+        taste: 0,
+        worms: 2
+    }];
+    var fruitSchema = {
+        "title": "fresh fruit schema v1",
+        "type": "array",
+        "required": ["skin", "colors", "taste"],
+        "properties": {
+            "colors": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                    "type": "string"
+                }
+            },
+            "skin": {
+                "type": "string"
+            },
+            "taste": {
+                "type": "number",
+                "minimum": 5
+            }
+        }
+    };
+
+    function sss ( schema ,data ) {
+    	var ret = true;
+    	try {
+	    	chai.expect(data).to.be.jsonSchema(schema);
+	    } catch ( err ) {
+	    	ret = err;
+	    }
+	    return ret;
+    }
+
+    console.log( sss( fruitSchema, badApple ) );
+
+
+
+    //console.log(chai.expect(badApple).to.not.be.jsonSchema(fruitSchema));
+
+    // function verify ( chai, schema, data ) {
+    // 	try {
+    // 		chai.expect(schema).to.not.be.jsonSchema(data);
+    // 		console.log(true);
+    // 		return true;
+    // 	}
+    // 	catch ( err ) {
+    // 		console.log(false);
+    // 		return false;
+    // 	}
+    // }
+    // verify(fruitSchema, goodApple);
+    </script>
+
+    <script src="scripts/main.js"></script>
+</body>
+
+</html>
